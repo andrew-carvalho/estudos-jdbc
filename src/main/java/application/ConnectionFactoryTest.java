@@ -1,3 +1,7 @@
+package application;
+
+import domain.ConnectionFactory;
+
 import java.sql.Connection;
 
 public class ConnectionFactoryTest {
