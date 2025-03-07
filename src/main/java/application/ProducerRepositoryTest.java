@@ -6,7 +6,7 @@ import repository.ProducerRepository;
 public class ProducerRepositoryTest {
 
     public static void main(String[] args) {
-        Producer producer = Producer.ProducerBuilder.builder().name("Mad House").build();
+        Producer producer = Producer.builder().name("Studio Deen").build();
         ProducerRepository.save(producer);
     }
 
