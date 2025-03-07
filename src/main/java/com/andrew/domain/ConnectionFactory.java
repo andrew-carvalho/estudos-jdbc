@@ -1,4 +1,4 @@
-package domain;
+package com.andrew.domain;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

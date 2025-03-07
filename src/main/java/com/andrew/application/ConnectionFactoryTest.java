@@ -1,6 +1,6 @@
-package application;
+package com.andrew.application;
 
-import domain.ConnectionFactory;
+import com.andrew.domain.ConnectionFactory;
 
 import java.sql.Connection;
 
