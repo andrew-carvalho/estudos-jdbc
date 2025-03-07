@@ -22,4 +22,15 @@ public class ProducerRepository {
         }
     }
 
+    public static void delete(int id) {
+        String sqlQuery = String.format("DELETE FROM `anime_store`.`producer` WHERE `id`='%d';", id);
+
+        try (Connection connection = ConnectionFactory.getConnection(); Statement statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(sqlQuery);
+            log.info("Rows affected by Statement: {}", rowsAffected);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
