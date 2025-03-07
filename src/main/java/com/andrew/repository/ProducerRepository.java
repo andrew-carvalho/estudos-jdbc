@@ -16,8 +16,9 @@ public class ProducerRepository {
 
         try (Connection connection = ConnectionFactory.getConnection(); Statement statement = connection.createStatement()) {
             int rowsAffected = statement.executeUpdate(sqlQuery);
-            log.info("Rows affected by statement: {}", rowsAffected);
+            log.info("Inserted Producer {}, rows affected by statement: {}", producer.getName(), rowsAffected);
         } catch (SQLException e) {
+            log.error("Error on inserting Producer {}", producer.getName());
             throw new RuntimeException(e);
         }
     }
@@ -27,8 +28,9 @@ public class ProducerRepository {
 
         try (Connection connection = ConnectionFactory.getConnection(); Statement statement = connection.createStatement()) {
             int rowsAffected = statement.executeUpdate(sqlQuery);
-            log.info("Rows affected by Statement: {}", rowsAffected);
+            log.info("Producer {} deleted, rows affected by Statement: {}", id, rowsAffected);
         } catch (SQLException e) {
+            log.error("Error on deleting Producer {}", id);
             throw new RuntimeException(e);
         }
     }
