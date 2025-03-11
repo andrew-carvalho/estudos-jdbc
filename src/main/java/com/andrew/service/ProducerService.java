@@ -33,6 +33,10 @@ public class ProducerService {
         ProducerRepository.showProducerMetaData();
     }
 
+    public static void showDatabaseMetaData() {
+        ProducerRepository.showDatabaseMetaData();
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");

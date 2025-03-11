@@ -25,7 +25,9 @@ public class ProducerRepositoryTest {
         // List<Producer> producers = ProducerService.findByName(producersName);
         // log.info("Producers found with name '{}': {}", producersName, producers);
 
-        ProducerService.showProducerMetaData();
+        // ProducerService.showProducerMetaData();
+
+        ProducerService.showDatabaseMetaData();
     }
 
 }

@@ -98,7 +98,6 @@ public class ProducerRepository {
         try (Connection connection = ConnectionFactory.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sqlQuery)) {
-            resultSet.next();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
             for (int i = 1; i <= columnCount; i++) {
@@ -110,6 +109,38 @@ public class ProducerRepository {
             }
         } catch (SQLException e) {
             log.error("Error on retrieving producer meta data");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void showDatabaseMetaData() {
+        log.info("Displaying driver meta data");
+
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+            if (databaseMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
+                log.info("Supports TYPE_FORWARD_ONLY");
+                if (databaseMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports TYPE_FORWARD_ONLY CONCUR_UPDATABLE");
+                }
+            }
+
+            if (databaseMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_INSENSITIVE");
+                if (databaseMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports TYPE_SCROLL_INSENSITIVE CONCUR_UPDATABLE");
+                }
+            }
+
+            if (databaseMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_SENSITIVE");
+                if (databaseMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports TYPE_SCROLL_SENSITIVE CONCUR_UPDATABLE");
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error on retrieving driver meta data");
             throw new RuntimeException(e);
         }
     }
