@@ -29,7 +29,11 @@ public class ProducerRepositoryTest {
 
         // ProducerService.showDatabaseMetaData();
 
-        ProducerService.showTypeScrollWorking();
+        // ProducerService.showTypeScrollWorking();
+
+        String producersName = "Mad";
+        List<Producer> producers = ProducerService.findByNameAndUpdateNameToUpperCase(producersName);
+        log.info("Producers found with name '{}': {}", producersName, producers);
     }
 
 }
