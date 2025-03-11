@@ -3,6 +3,8 @@ package com.andrew.service;
 import com.andrew.domain.Producer;
 import com.andrew.repository.ProducerRepository;
 
+import java.util.List;
+
 public class ProducerService {
 
     public static void save(Producer producer) {
@@ -17,6 +19,10 @@ public class ProducerService {
     public static void update(Producer producer) {
         validateId(producer.getId());
         ProducerRepository.update(producer);
+    }
+
+    public static List<Producer> findAll() {
+       return ProducerRepository.findAll();
     }
 
     private static void validateId(Integer id) {
