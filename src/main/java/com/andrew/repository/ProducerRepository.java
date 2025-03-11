@@ -4,10 +4,7 @@ import com.andrew.domain.ConnectionFactory;
 import com.andrew.domain.Producer;
 import lombok.extern.log4j.Log4j2;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +89,29 @@ public class ProducerRepository {
         }
 
         return producers;
+    }
+
+    public static void showProducerMetaData() {
+        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer`";
+        log.info("Displaying table meta data");
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+            resultSet.next();
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                log.info("Table name: {}", resultSetMetaData.getTableName(i));
+                log.info("Column position: {}", i);
+                log.info("Column name: {}", resultSetMetaData.getColumnName(i));
+                log.info("Column size: {}", resultSetMetaData.getColumnDisplaySize(i));
+                log.info("Column type: {}", resultSetMetaData.getColumnTypeName(i));
+            }
+        } catch (SQLException e) {
+            log.error("Error on retrieving producer meta data");
+            throw new RuntimeException(e);
+        }
     }
 
 }

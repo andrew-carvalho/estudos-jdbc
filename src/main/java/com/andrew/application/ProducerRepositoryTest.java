@@ -21,9 +21,11 @@ public class ProducerRepositoryTest {
         // List<Producer> producers = ProducerService.findAll();
         // log.info("Producers found {}", producers);
 
-        String producersName = "Mad";
-        List<Producer> producers = ProducerService.findByName(producersName);
-        log.info("Producers found with name '{}': {}", producersName, producers);
+        // String producersName = "Mad";
+        // List<Producer> producers = ProducerService.findByName(producersName);
+        // log.info("Producers found with name '{}': {}", producersName, producers);
+
+        ProducerService.showProducerMetaData();
     }
 
 }
