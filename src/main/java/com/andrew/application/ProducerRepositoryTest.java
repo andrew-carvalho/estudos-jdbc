@@ -27,7 +27,9 @@ public class ProducerRepositoryTest {
 
         // ProducerService.showProducerMetaData();
 
-        ProducerService.showDatabaseMetaData();
+        // ProducerService.showDatabaseMetaData();
+
+        ProducerService.showTypeScrollWorking();
     }
 
 }

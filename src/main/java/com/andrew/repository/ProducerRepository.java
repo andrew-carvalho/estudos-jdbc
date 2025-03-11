@@ -145,4 +145,27 @@ public class ProducerRepository {
         }
     }
 
+    public static void showTypeScrollWorking() {
+        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer`";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+            resultSet.last();
+            log.info("Last line: {}", Producer.builder()
+                    .id(resultSet.getInt("id"))
+                    .name(resultSet.getString("name"))
+                    .build());
+            log.info("Row number: {}", resultSet.getRow());
+            log.info("Row absolute? {}", resultSet.absolute(2));
+            log.info("Row number: {}", resultSet.getRow());
+            log.info("Row relative? {}", resultSet.relative(1));
+            log.info("Row number: {}", resultSet.getRow());
+            log.info("Is last? {}", resultSet.isLast());
+            log.info("Is first? {}", resultSet.isFirst());
+        } catch (SQLException e) {
+            log.error("Error on showing Type Scroll");
+            throw new RuntimeException(e);
+        }
+    }
 }

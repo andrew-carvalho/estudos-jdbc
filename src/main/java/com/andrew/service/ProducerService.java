@@ -37,6 +37,10 @@ public class ProducerService {
         ProducerRepository.showDatabaseMetaData();
     }
 
+    public static void showTypeScrollWorking() {
+        ProducerRepository.showTypeScrollWorking();
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");
