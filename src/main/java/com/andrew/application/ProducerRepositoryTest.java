@@ -35,9 +35,12 @@ public class ProducerRepositoryTest {
         // List<Producer> producers = ProducerService.findByNameAndUpdateNameToUpperCase(producersName);
         // log.info("Producers found with name '{}': {}", producersName, producers);
 
+        // String producersName = "A1-Studio";
+        // List<Producer> producers = ProducerService.findByNameAndInsertIfNotFound(producersName);
+        // log.info("Producers found with name '{}': {}", producersName, producers);
+
         String producersName = "A1-Studio";
-        List<Producer> producers = ProducerService.findByNameAndInsertIfNotFound(producersName);
-        log.info("Producers found with name '{}': {}", producersName, producers);
+        ProducerService.findByNameAndDelete(producersName);
     }
 
 }

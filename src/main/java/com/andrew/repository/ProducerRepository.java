@@ -223,4 +223,20 @@ public class ProducerRepository {
 
         return producers;
     }
+
+    public static void findByNameAndDelete(String name) {
+        String sqlQuery = String.format("SELECT id, name FROM `anime_store`.`producer` WHERE `name` LIKE '%%%s%%'", name);
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+            while (resultSet.next()) {
+                log.info("Deleting {}", resultSet.getString("name"));
+                resultSet.deleteRow();
+            }
+        } catch (SQLException e) {
+            log.error("Error on retrieving or deleting producer {}", name);
+            throw new RuntimeException(e);
+        }
+    }
 }

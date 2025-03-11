@@ -49,6 +49,10 @@ public class ProducerService {
         return ProducerRepository.findByNameAndInsertIfNotFound(name);
     }
 
+    public static void findByNameAndDelete(String name) {
+        ProducerRepository.findByNameAndDelete(name);
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");
