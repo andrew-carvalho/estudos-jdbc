@@ -11,12 +11,19 @@ public class ProducerRepositoryTest {
 
     public static void main(String[] args) {
         // Producer producer = Producer.builder().id().name("NHK").build();
-        // Producer producer = Producer.builder().id(4).name("NHK").build();
         // ProducerService.save(producer);
+
         // ProducerService.delete(16);
-        // ProducerService.update(producer);
-        List<Producer> producers = ProducerService.findAll();
-        log.info("Producers found {}", producers);
+
+        // Producer producerUpdate = Producer.builder().id(4).name("NHK").build();
+        // ProducerService.update(producerUpdate);
+
+        // List<Producer> producers = ProducerService.findAll();
+        // log.info("Producers found {}", producers);
+
+        String producersName = "Mad";
+        List<Producer> producers = ProducerService.findByName(producersName);
+        log.info("Producers found with name '{}': {}", producersName, producers);
     }
 
 }
