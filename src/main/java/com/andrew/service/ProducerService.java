@@ -65,6 +65,10 @@ public class ProducerService {
         return ProducerRepository.findByNameWithCallableStatement(name);
     }
 
+    public static List<Producer> findByNameWithJdbcRowSet(String name) {
+        return ProducerRepository.findByNameWithJdbcRowSet(name);
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");
