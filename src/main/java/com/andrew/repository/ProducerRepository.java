@@ -267,4 +267,23 @@ public class ProducerRepository {
         preparedStatement.setString(1, String.format("%%%s%%", name));
         return preparedStatement;
     }
+
+    public static void updateWithPreparedStatement(Producer producer) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = createPreparedStatementForUpdate(connection, producer)) {
+            int rowsAffected = statement.executeUpdate();
+            log.info("Producer {} changed, rows affected by Statement: {}", producer.getId(), rowsAffected);
+        } catch (SQLException e) {
+            log.error("Error on updating Producer {}", producer.getId());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement createPreparedStatementForUpdate(Connection connection, Producer producer) throws SQLException {
+        String sqlQuery = "UPDATE `anime_store`.`producer` SET `name` = ? WHERE `id` = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, producer.getName());
+        preparedStatement.setInt(2, producer.getId());
+        return preparedStatement;
+    }
 }

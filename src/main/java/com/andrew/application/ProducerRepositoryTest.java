@@ -42,9 +42,12 @@ public class ProducerRepositoryTest {
         // String producersName = "A1-Studio";
         // ProducerService.findByNameAndDelete(producersName);
 
-        String name = "N";
-        List<Producer> producers = ProducerService.findByNameWithPreparedStatement(name);
-        log.info("Producers found with name {}: {}", name, producers);
+        // String name = "N";
+        // List<Producer> producers = ProducerService.findByNameWithPreparedStatement(name);
+        // log.info("Producers found with name {}: {}", name, producers);
+
+        Producer producerUpdate = Producer.builder().id(4).name("NHK").build();
+        ProducerService.update(producerUpdate);
     }
 
 }
