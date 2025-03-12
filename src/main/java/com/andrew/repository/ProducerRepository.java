@@ -2,6 +2,7 @@ package com.andrew.repository;
 
 import com.andrew.domain.ConnectionFactory;
 import com.andrew.domain.Producer;
+import com.andrew.listener.JdbcRowSetListener;
 import lombok.extern.log4j.Log4j2;
 
 import javax.sql.rowset.JdbcRowSet;
@@ -336,5 +337,26 @@ public class ProducerRepository {
         }
 
         return producers;
+    }
+
+    public static void updateWithJdbcRowSet(Producer producer) {
+        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer` WHERE `id` = ?";
+
+        try (JdbcRowSet jdbcRowSet = ConnectionFactory.getJdbcRowSet()) {
+            jdbcRowSet.addRowSetListener(new JdbcRowSetListener());
+            jdbcRowSet.setCommand(sqlQuery);
+            jdbcRowSet.setInt(1, producer.getId());
+            jdbcRowSet.execute();
+
+            if (!jdbcRowSet.next()) {
+                return;
+            }
+
+            jdbcRowSet.updateString("name", producer.getName());
+            jdbcRowSet.updateRow();
+        } catch (SQLException e) {
+            log.error("Error on updating Producer {}", producer.getId());
+            throw new RuntimeException(e);
+        }
     }
 }
