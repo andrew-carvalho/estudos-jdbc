@@ -241,11 +241,10 @@ public class ProducerRepository {
     }
 
     public static List<Producer> findByNameWithPreparedStatement(String name) {
-        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer` WHERE `name` LIKE ?";
         List<Producer> producers = new ArrayList<>();
 
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = createPreparedStatementForFindByName(connection, sqlQuery, name);
+             PreparedStatement statement = createPreparedStatementForFindByName(connection, name);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Producer producer = Producer.builder()
@@ -262,7 +261,8 @@ public class ProducerRepository {
         return producers;
     }
 
-    public static PreparedStatement createPreparedStatementForFindByName(Connection connection, String sqlQuery, String name) throws SQLException {
+    public static PreparedStatement createPreparedStatementForFindByName(Connection connection, String name) throws SQLException {
+        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer` WHERE `name` LIKE ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setString(1, String.format("%%%s%%", name));
         return preparedStatement;
