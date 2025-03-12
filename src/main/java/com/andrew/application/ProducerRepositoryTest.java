@@ -39,8 +39,12 @@ public class ProducerRepositoryTest {
         // List<Producer> producers = ProducerService.findByNameAndInsertIfNotFound(producersName);
         // log.info("Producers found with name '{}': {}", producersName, producers);
 
-        String producersName = "A1-Studio";
-        ProducerService.findByNameAndDelete(producersName);
+        // String producersName = "A1-Studio";
+        // ProducerService.findByNameAndDelete(producersName);
+
+        String name = "N";
+        List<Producer> producers = ProducerService.findByNameWithPreparedStatement(name);
+        log.info("Producers found with name {}: {}", name, producers);
     }
 
 }

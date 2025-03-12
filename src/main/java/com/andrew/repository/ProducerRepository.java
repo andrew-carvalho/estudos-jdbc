@@ -239,4 +239,32 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Producer> findByNameWithPreparedStatement(String name) {
+        String sqlQuery = "SELECT * FROM anime_store.producer WHERE name LIKE ?";
+        List<Producer> producers = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement statement = createPreparedStatementForFindByName(connection, sqlQuery, name);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Producer producer = Producer.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error on retrieving producer with name {}", name);
+            throw new RuntimeException(e);
+        }
+
+        return producers;
+    }
+
+    public static PreparedStatement createPreparedStatementForFindByName(Connection connection, String sqlQuery, String name) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, String.format("%%%s%%", name));
+        return preparedStatement;
+    }
 }
