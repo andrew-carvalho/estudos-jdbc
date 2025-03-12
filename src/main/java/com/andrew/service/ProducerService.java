@@ -73,6 +73,10 @@ public class ProducerService {
         ProducerRepository.updateWithJdbcRowSet(producer);
     }
 
+    public static void updateWithCachedRowSet(Producer producer) {
+        ProducerRepository.updateWithCachedRowSet(producer);
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");

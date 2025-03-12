@@ -5,6 +5,7 @@ import com.andrew.domain.Producer;
 import com.andrew.listener.JdbcRowSetListener;
 import lombok.extern.log4j.Log4j2;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
 import java.sql.*;
 import java.util.ArrayList;
@@ -354,6 +355,29 @@ public class ProducerRepository {
 
             jdbcRowSet.updateString("name", producer.getName());
             jdbcRowSet.updateRow();
+        } catch (SQLException e) {
+            log.error("Error on updating Producer {}", producer.getId());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateWithCachedRowSet(Producer producer) {
+        String sqlQuery = "SELECT id, name FROM `producer` WHERE `id` = ?";
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             CachedRowSet cachedRowSet = ConnectionFactory.getCachedRowSet()) {
+            connection.setAutoCommit(false);
+            cachedRowSet.setCommand(sqlQuery);
+            cachedRowSet.setInt(1, producer.getId());
+            cachedRowSet.execute(connection);
+
+            if (!cachedRowSet.next()) {
+                return;
+            }
+
+            cachedRowSet.updateString("name", producer.getName());
+            cachedRowSet.updateRow();
+            cachedRowSet.acceptChanges();
         } catch (SQLException e) {
             log.error("Error on updating Producer {}", producer.getId());
             throw new RuntimeException(e);
