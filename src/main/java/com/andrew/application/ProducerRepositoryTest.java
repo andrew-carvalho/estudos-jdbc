@@ -46,8 +46,12 @@ public class ProducerRepositoryTest {
         // List<Producer> producers = ProducerService.findByNameWithPreparedStatement(name);
         // log.info("Producers found with name {}: {}", name, producers);
 
-        Producer producerUpdate = Producer.builder().id(4).name("NHK").build();
-        ProducerService.update(producerUpdate);
+        // Producer producerUpdate = Producer.builder().id(4).name("NHK").build();
+        // ProducerService.update(producerUpdate);
+
+        String name = "N";
+        List<Producer> producers = ProducerService.findByNameWithCallableStatement(name);
+        log.info("Producers found with name {}: {}", name, producers);
     }
 
 }

@@ -286,4 +286,31 @@ public class ProducerRepository {
         preparedStatement.setInt(2, producer.getId());
         return preparedStatement;
     }
+
+    public static List<Producer> findByNameWithCallableStatement(String name) {
+        List<Producer> producers = new ArrayList<>();
+
+        try (Connection connection = ConnectionFactory.getConnection();
+             CallableStatement callableStatement = createCallableStatementForFindByName(connection, name);
+             ResultSet resultSet = callableStatement.executeQuery()) {
+            while (resultSet.next()) {
+                producers.add(Producer.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build());
+            }
+        } catch (SQLException e) {
+            log.error("Error on retrieving producer {}", name);
+            throw new RuntimeException(e);
+        }
+
+        return producers;
+    }
+
+    private static CallableStatement createCallableStatementForFindByName(Connection connection, String name) throws SQLException {
+        String sqlQuery = "CALL sp_get_producer_by_name(?)";
+        CallableStatement callableStatement = connection.prepareCall(sqlQuery);
+        callableStatement.setString(1, String.format("%%%s%%", name));
+        return callableStatement;
+    }
 }
