@@ -383,4 +383,41 @@ public class ProducerRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public static void saveTransaction(List<Producer> producers) {
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            connection.setAutoCommit(false);
+            createPreparedStatementForTransaction(connection, producers);
+        } catch (SQLException e) {
+            log.error("Error on saving transaction");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void createPreparedStatementForTransaction(Connection connection, List<Producer> producers) throws SQLException {
+        String sqlQuery = "INSERT INTO `anime_store`.`producer` (`name`) VALUES (?)";
+        boolean hasError = false;
+
+        for (Producer producer : producers) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+                if (producer.getName().equals("Teste")) {
+                    throw new SQLException("Error on adding teste");
+                }
+                preparedStatement.setString(1, producer.getName());
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                hasError = true;
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (hasError) {
+            log.error("An error has occurred, rollback transaction");
+            connection.rollback();
+            return;
+        }
+
+        connection.commit();
+        log.info("All rows inserted");
+    }
 }

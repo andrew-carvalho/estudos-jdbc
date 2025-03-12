@@ -60,8 +60,13 @@ public class ProducerRepositoryTest {
         // Producer producerUpdate = Producer.builder().id(4).name("NHK").build();
         // ProducerService.updateWithJdbcRowSet(producerUpdate);
 
-        Producer producerUpdate = Producer.builder().id(4).name("nhk").build();
-        ProducerService.updateWithCachedRowSet(producerUpdate);
+        // Producer producerUpdate = Producer.builder().id(4).name("nhk").build();
+        // ProducerService.updateWithCachedRowSet(producerUpdate);
+
+        Producer producer1 = Producer.builder().name("Andrew").build();
+        Producer producer2 = Producer.builder().name("Teste").build();
+        Producer producer3 = Producer.builder().name("Outro").build();
+        ProducerService.saveTransaction(List.of(producer1, producer2, producer3));
     }
 
 }

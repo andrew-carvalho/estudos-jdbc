@@ -77,6 +77,10 @@ public class ProducerService {
         ProducerRepository.updateWithCachedRowSet(producer);
     }
 
+    public static void saveTransaction(List<Producer> producers) {
+        ProducerRepository.saveTransaction(producers);
+    }
+
     private static void validateId(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Invalid value for ID");
