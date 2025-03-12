@@ -241,7 +241,7 @@ public class ProducerRepository {
     }
 
     public static List<Producer> findByNameWithPreparedStatement(String name) {
-        String sqlQuery = "SELECT * FROM anime_store.producer WHERE name LIKE ?";
+        String sqlQuery = "SELECT id, name FROM `anime_store`.`producer` WHERE `name` LIKE ?";
         List<Producer> producers = new ArrayList<>();
 
         try (Connection connection = ConnectionFactory.getConnection();
